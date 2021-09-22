@@ -1447,7 +1447,6 @@ if ! "${skip_upload_hf}"; then
         [ -z "${gitlfs}" ] && \
             log "ERROR: You need to install git-lfs first" && \
             exit 1
-        echo "${gitlfs}\n"
 
         dir_repo=${expdir}/***REMOVED***${***REMOVED***repo//"/"/"_"}
         [ ! -d "${dir_repo}" ] && git clone https://huggingface.co/${***REMOVED***repo} ${dir_repo}
