@@ -931,7 +931,7 @@ EOF
             --publish false
     fi
 else
-    log "Skip the uploading stages"
+    log "Skip the uploading stage"
 fi
 
 if ! "${skip_upload_hf}"; then
@@ -939,7 +939,7 @@ if ! "${skip_upload_hf}"; then
         [ -z "${***REMOVED***repo}" ] && \
             log "ERROR: You need to setup the variable ***REMOVED***repo with the name of the repository located at HuggingFace" && \
             exit 1
-        log "Stage 16: Upload model to HuggingFace: ${***REMOVED***repo}"
+        log "Stage 13: Upload model to HuggingFace: ${***REMOVED***repo}"
 
         gitlfs=$(git lfs --version 2> /dev/null || true)
         [ -z "${gitlfs}" ] && \
