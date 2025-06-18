@@ -20,7 +20,6 @@
 >請依照指示安裝，安裝程序錯誤可能會導致程式無法運行
 
 ## 安裝
-install miniconda
 ```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod +x Miniconda3-latest-Linux-x86_64.sh
