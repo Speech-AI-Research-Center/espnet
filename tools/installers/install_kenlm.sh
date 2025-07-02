@@ -7,23 +7,29 @@ if [ $# != 0 ]; then
 fi
 
 boost_version=1.81.0
+boost_dir="boost-${boost_version}"
+boost_archive="${boost_dir}.tar.gz"
+boost_build="boost_${boost_version//./_}_build"
 
-if [ ! -d boost_${boost_version//./_} ]; then
-    if [ ! -e "boost_"${boost_version//./_}".tar.bz2" ]; then
-        wget --no-check-certificate https://boostorg.jfrog.io/artifactory/main/release/"${boost_version}"/source/boost_"${boost_version//./_}".tar.bz2
+# 下載 Boost 壓縮檔
+if [ ! -d "${boost_dir}" ]; then
+    if [ ! -e "${boost_archive}" ]; then
+        wget "https://github.com/boostorg/boost/releases/download/boost-${boost_version}/${boost_archive}"
     fi
-    tar xvf boost_"${boost_version//./_}".tar.bz2
+    tar xvf "${boost_archive}"
 fi
 
-if [ ! -d boost_${boost_version//./_}_build ]; then
+# 編譯 Boost
+if [ ! -d "${boost_build}" ]; then
     (
         set -euo pipefail
-        cd boost_${boost_version//./_}
+        cd "${boost_dir}"
         ./bootstrap.sh
-        ./b2 install --prefix=$(pwd)/../boost_${boost_version//./_}_build install
+        ./b2 install --prefix=$(pwd)/../"${boost_build}" install
     )
 fi
 
+# 下載 & 編譯 KenLM
 if [ ! -d kenlm ]; then
     git clone https://github.com/kpu/kenlm.git
 fi
@@ -31,11 +37,12 @@ fi
 (
     set -euo pipefail
     cd kenlm
-
     mkdir -p build
     (
         set -euo pipefail
-        cd build && cmake -DCMAKE_PREFIX_PATH=$(pwd)/../../boost_${boost_version//./_}_build .. && make
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=$(pwd)/../../"${boost_build}" ..
+        make -j$(nproc)
     )
     (
         set -euo pipefail
